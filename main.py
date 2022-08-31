@@ -2,6 +2,8 @@ import discord
 import os
 import random
 from replit import db
+from keep_alive import keep_alive
+
 TOKEN = os.environ['TOKEN']
 
 client = discord.Client(intents=discord.Intents.all())
@@ -53,25 +55,27 @@ async def on_message(message):
 
   # sends posture messages
 
-  if "posture_words" in db.keys():
-    posture_words =+ db["posture_words"]
+  # if "posture_words" in db.keys():
+  #   posture_words =+ db["posture_words"]
   
   if any(word in msg for word in posture_words):
-    await channel.send(random.choice(posture_words))
+    await channel.send(random.choice(posture_check))
 
   # database commands
-  if msg.startswith("$new"):
-    posture_word = msg.split("$new ", 1)[1]
-    update_posture_words(posture_word)
-    await channel.send("New posture word added.")
+  # if msg.startswith("$new"):
+  #   posture_word = msg.split("$new ", 1)[1]
+  #   update_posture_words(posture_word)
+  #   await channel.send("New posture word added.")
 
-  if msg.startswith("$delete"):
-    posture_words = []
-    if "posture_words" in db.keys():
-      index = int(msg.split("$delete ", 1)[1])
-      delete_posture_word(index)
-      posture_words = db["posture_words"]
-    await channel.send(posture_words)
+  # if msg.startswith("$delete"):
+  #   posture_words = []
+  #   if "posture_words" in db.keys():
+  #     index = int(msg.split("$delete ", 1)[1])
+  #     delete_posture_word(index)
+  #     posture_words = db["posture_words"]
+  #   await channel.send(posture_words)
 
-    
+
+keep_alive()
+
 client.run(TOKEN)
